@@ -42,13 +42,13 @@ Create new host and attach the template to it.
 Set following in host's macro section:
 
 
-ELB name : {$INSTANCE_NAME}. 
+**ELB name** : {$INSTANCE_NAME}. 
 Be aware that ELB instance name is not a ARN, DNS name. 
 It looks like: app/_LB_NAME/123abc456
 
-TargetGroup name : {$TARGET_GROUP}.
+**TargetGroup name** (optional): {$TARGET_GROUP}.
 It looks like: targetgroup/_TG_NAME/123abc456
 
-AWS credentials {$AWS_ACCESS_KEY} and {$AWS_SECRET_KEY}
+**AWS credentials** {$AWS_ACCESS_KEY} and {$AWS_SECRET_KEY}
 
-AWS region : {$REGION}
+**AWS region** : {$REGION}
