@@ -1,0 +1,229 @@
+zabbix_export:
+  version: '6.0'
+  date: '2024-01-11T06:03:51Z'
+  groups:
+    - uuid: c2c162144c2d4c5491c8801193af4945
+      name: Templates/Cloud
+  templates:
+    - uuid: 6b07d81c420a44779c1695ae5f1d5bd1
+      template: 'AWS ELB by Hamster'
+      name: 'AWS ELB by Hamster'
+      description: |
+        AWS ELB Template 
+        
+        externalscripts default path : /usr/lib/zabbix/externalscripts
+      groups:
+        - name: Templates/Cloud
+      items:
+        - uuid: fe55685c17784cacb601a04c7834f964
+          name: ActiveConnectionCount
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","ActiveConnectionCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+          triggers:
+            - uuid: f3d2dc4ab65e4ba9ac479e687db32ae8
+              expression: 'avg(/AWS ELB by Hamster/elb_stats.py["--metric","ActiveConnectionCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"],5m) > 500'
+              name: 'Too many active connections on  {HOST.NAME}'
+              status: DISABLED
+              priority: WARNING
+        - uuid: ee5499e8891142e09e18c743bfc2273d
+          name: ClientTLSNegotiationErrorCount
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","ClientTLSNegotiationErrorCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: ab52a69bcf6d46eb8ceabfc35e15d489
+          name: ConsumedLCUs
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","ConsumedLCUs","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: 36f701c780ed4414adb3893c012fff78
+          name: HTTPCode_ELB_3XX_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTPCode_ELB_3XX_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: ac7a31e505da44a297258f98b86db07e
+          name: HTTPCode_ELB_4XX_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTPCode_ELB_4XX_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+          triggers:
+            - uuid: 25139f74b1284f8ba1595e40d2c049ec
+              expression: 'sum(/AWS ELB by Hamster/elb_stats.py["--metric","HTTPCode_ELB_4XX_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"],5m)>20'
+              name: 'High 4XX error rate on {HOST.NAME}'
+              priority: AVERAGE
+        - uuid: 868da1f67bcb4928ba8d67394964fa0e
+          name: HTTPCode_ELB_5XX_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTPCode_ELB_5XX_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+          triggers:
+            - uuid: b23d2f1ce20f46f68330c22b5c5278b0
+              expression: 'sum(/AWS ELB by Hamster/elb_stats.py["--metric","HTTPCode_ELB_5XX_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"],5m)>10'
+              name: 'High 5XX error rate on {HOST.NAME}'
+              priority: AVERAGE
+        - uuid: f8b38bac4c9a42b98b7a0d24c7032f3a
+          name: HTTPCode_ELB_500_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTPCode_ELB_500_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: 11656a7752794bd88d976e0a48184593
+          name: HTTPCode_ELB_502_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTPCode_ELB_502_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: 11a54677fbb3404fa50488e0abb4d281
+          name: HTTPCode_ELB_503_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTPCode_ELB_503_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: 11069d8bc7ff44d5a3daa975e8cb20cb
+          name: HTTPCode_ELB_504_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTPCode_ELB_504_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: 0e1811aeebfa460482e172588ebe3762
+          name: HTTP_Fixed_Response_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTP_Fixed_Response_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: acddf69cfbe1475fbb1736f6054044ec
+          name: HTTP_Redirect_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTP_Redirect_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: e1a53bd80d994da48f586e240a5f279c
+          name: HTTP_Redirect_Url_Limit_Exceeded_Count
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","HTTP_Redirect_Url_Limit_Exceeded_Count","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: aec2dfe8f514458eb2b9865ddb7609dc
+          name: NewConnectionCount
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","NewConnectionCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: a82e42bf82244c17a3091496ee041673
+          name: ProcessedBytes
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","ProcessedBytes","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          value_type: FLOAT
+          units: MB
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: 0e355b360c7e4281a3f7bb466063759e
+          name: RejectedConnectionCount
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","RejectedConnectionCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+          triggers:
+            - uuid: f2543798629e4f3990b891d1a027a7af
+              expression: 'sum(/AWS ELB by Hamster/elb_stats.py["--metric","RejectedConnectionCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"],5m)>20'
+              name: 'Many rejected connections on {HOST.NAME}'
+              priority: WARNING
+        - uuid: a981a751560e4c9dbd45578fbe16620e
+          name: RequestCount
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","RequestCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: 7a2bc2339a07474790f95d77849c3452
+          name: RuleEvaluations
+          type: EXTERNAL
+          key: 'elb_stats.py["--metric","RuleEvaluations","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}"]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: 22d04e578cf145d1bf387f76e8b122ee
+          name: HealthyHostCount
+          type: EXTERNAL
+          key: 'target_elb_stats.py["--metric","HealthyHostCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}","--target-group","{$TARGET_GROUP}"]'
+          delay: '60'
+          description: HealthyHostCount
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+        - uuid: 8b706a92f19c498bb3c6862c03353def
+          name: UnHealthyHostCount
+          type: EXTERNAL
+          key: 'target_elb_stats.py["--metric","UnHealthyHostCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}","--target-group","{$TARGET_GROUP}"]'
+          delay: '60'
+          description: HealthyHostCount
+          tags:
+            - tag: Application
+              value: 'AWS ELB'
+          triggers:
+            - uuid: 38f71f1b35594297a77857ef5ea37351
+              expression: 'avg(/AWS ELB by Hamster/target_elb_stats.py["--metric","UnHealthyHostCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}","--target-group","{$TARGET_GROUP}"],1m) >= 1'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'avg(/AWS ELB by Hamster/target_elb_stats.py["--metric","UnHealthyHostCount","--instance-id","{$INSTANCE_NAME}","--access-key","{$AWS_ACCESS_KEY}","--secret-key","{$AWS_SECRET_KEY}","--region","{$REGION}","--target-group","{$TARGET_GROUP}"],1m) < 0'
+              name: 'UnHealthyHostCount for {HOST.NAME} occurred.'
+              priority: HIGH
+              description: 'Occurs when the UnHealthyHostCount value is greater than or equal to 1'
+      tags:
+        - tag: target
+          value: aws
+        - tag: target
+          value: elb
+      macros:
+        - macro: '{$AWS_ACCESS_KEY}'
+          description: 'access key'
+        - macro: '{$AWS_SECRET_KEY}'
+          description: 'secret key'
+        - macro: '{$INSTANCE_NAME}'
+          value: app/hamster/123456789abcde
+          description: 'Among ARN, specify "app/_LB_NAME/_NUM_ABC"'
+        - macro: '{$REGION}'
+          value: ap-northeast-2
+          description: '리전 명시'
+        - macro: '{$TARGET_GROUP}'
+          value: targetgroup/hamster/123456789abcde
+          description: 'Among ARN, specify "targetgroup/_TG_NAME/_NUM_ABC"'
